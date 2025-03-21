@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/drawer_professor.dart';
+import 'package:flutter_application_1/screens/telaLogin.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,91 +13,502 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Image.asset('assets/images/senai.png', height: 25),
         centerTitle: true,
         backgroundColor: Color(0xFF0145B5),
         iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
-      drawer: Drawer(
+      drawer: DrawerProfessor(),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 14, right: 14, top: 22),
         child: ListView(
-          padding: EdgeInsets.all(0.8),
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF0145B5)),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundImage: AssetImage(
-                        'assets/images/professor.png',
+            Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Pesquisar por salas',
+                    hintStyle: TextStyle(
+                      color: Color(0xFF0145B5),
+                      fontFamily: 'Inter',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.manage_search_sharp,
+                      color: Color(0xFF0145B5),
+                      size: 25,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      borderSide: BorderSide(
+                        color: Color(0xFF0145B5),
+                        width: 3,
                       ),
                     ),
-                    SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Eduardo Almeida',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        Text(
-                          'Técnico em TI',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      ],
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      borderSide: BorderSide(color: Colors.black, width: 2),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mais salas: ',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.checklist, size: 25),
-              title: Text(
-                'Reservar Sala',
-                style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.person_pin_outlined, size: 25),
-              title: Text(
-                'Fila de Espera',
-                style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.settings, size: 25),
-              title: Text(
-                'Configuração',
-                style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-              ),
-            ),
-            SizedBox(height: 300),
-            Divider(color: Colors.black, indent: 10, endIndent: 10),
-            SizedBox(height: 10),
-            ListTile(
-              onTap: () {},
-              leading: Icon(Icons.logout, color: Colors.black),
-              title: Text(
-                'Logout',
-                style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-              ),
+
+                SizedBox(height: 20),
+
+                Card(
+                  color: Color(0xFF0145B5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                  margin: EdgeInsets.all(10),
+                  child: ExpansionTile(
+                    backgroundColor: Color(0xFF0145B5),
+                    collapsedIconColor: Colors.white,
+                    iconColor: Colors.white,
+                    title: Text(
+                      'Bloco A: ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                        color: Colors.white,
+                      ),
+                    ),
+                    children: [
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Livre para reservas',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'A1',
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.green,
+                                        size: 15,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                        'assets/images/professor.png',
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Eduardo Almeida',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Técnico em TI',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w100,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'A2',
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.red,
+                                        size: 15,
+                                      ),
+                                    ],
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'Mais informações',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w100,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Card(
+                  color: Color(0xFF0145B5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                  margin: EdgeInsets.all(10),
+                  child: ExpansionTile(
+                    backgroundColor: Color(0xFF0145B5),
+                    collapsedIconColor: Colors.white,
+                    iconColor: Colors.white,
+                    title: Text(
+                      'Bloco B: ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                        color: Colors.white,
+                      ),
+                    ),
+                    children: [
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Livre para reservas',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                        'assets/images/professor.png',
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Eduardo Almeida',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Técnico em TI',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w100,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'A2',
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.red,
+                                        size: 15,
+                                      ),
+                                    ],
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'Mais informações',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w100,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Card(
+                  color: Color(0xFF0145B5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                  margin: EdgeInsets.all(10),
+                  child: ExpansionTile(
+                    backgroundColor: Color(0xFF0145B5),
+                    collapsedIconColor: Colors.white,
+                    iconColor: Colors.white,
+                    title: Text(
+                      'Bloco C: ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                        color: Colors.white,
+                      ),
+                    ),
+                    children: [
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Livre para reservas',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 9,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                        'assets/images/professor.png',
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Eduardo Almeida',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Técnico em TI',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w100,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'A2',
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.red,
+                                        size: 15,
+                                      ),
+                                    ],
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'Mais informações',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w100,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),

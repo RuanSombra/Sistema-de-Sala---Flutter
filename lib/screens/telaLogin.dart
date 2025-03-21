@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/telaInicial.dart';
 
 class Telalogin extends StatefulWidget {
   const Telalogin({super.key});
@@ -8,13 +9,15 @@ class Telalogin extends StatefulWidget {
 }
 
 class _TelaloginState extends State<Telalogin> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
   String? _selectedOption;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(36, 101, 36, 90),
-        child: Column(
+        padding: const EdgeInsets.fromLTRB(40, 60, 40, 90),
+        child: ListView(
           children: [
             SizedBox(
               width: 295,
@@ -50,10 +53,19 @@ class _TelaloginState extends State<Telalogin> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     SizedBox(height: 20),
+
                     DropdownButtonFormField<String>(
                       value: _selectedOption,
                       hint: Text('Escolha uma opção'),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: 'Poppins',
@@ -100,6 +112,7 @@ class _TelaloginState extends State<Telalogin> {
                                 ),
                                 SizedBox(height: 5),
                                 TextFormField(
+                                  controller: emailController,
                                   decoration: InputDecoration(
                                     labelText: 'Insira seu email senai.',
                                     border: OutlineInputBorder(
@@ -112,7 +125,7 @@ class _TelaloginState extends State<Telalogin> {
                               ],
                             ),
 
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,6 +140,7 @@ class _TelaloginState extends State<Telalogin> {
                                 ),
                                 SizedBox(height: 5),
                                 TextFormField(
+                                  controller: senhaController,
                                   decoration: InputDecoration(
                                     labelText: 'Insira sua senha.',
                                     border: OutlineInputBorder(
@@ -137,6 +151,34 @@ class _TelaloginState extends State<Telalogin> {
                                   ),
                                 ),
                               ],
+                            ),
+
+                            SizedBox(height: 20),
+
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size(303, 59),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Color(0xFF0145B5),
+                              ),
+                              child: Text(
+                                'Entrar na conta',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Home(),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
