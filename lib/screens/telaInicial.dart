@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/drawer_professor.dart';
-import 'package:flutter_application_1/screens/telaLogin.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
