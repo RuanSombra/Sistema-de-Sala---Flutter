@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/drawer_coodenador.dart';
 import 'package:flutter_application_1/screens/telaLogin.dart';
 
 class DrawerProfessor extends StatefulWidget {
@@ -37,21 +38,11 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
                       children: [
                         Text(
                           'Eduardo Almeida',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
+                          style: TextStylesPerfil.perfilstyle,
                         ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
                         Text(
                           'Técnico em Eletroeletronica',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
+                          style: TextStylesOcupacao.cargostyle,
                           overflow: TextOverflow.ellipsis,
                         ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
                       ],
@@ -69,14 +60,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               color: Colors.black,
               semanticLabel: 'Reserva Sala',
             ),
-            title: Text(
-              'Reservar Sala',
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title: Text('Reservar Sala', style: TextStylesListTile.listtile),
           ),
           ListTile(
             onTap: () {},
@@ -86,14 +70,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               color: Colors.black,
               semanticLabel: 'Fila de Espera',
             ),
-            title: Text(
-              'Fila de Espera',
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title: Text('Fila de Espera', style: TextStylesListTile.listtile),
           ),
           ListTile(
             onTap: () {},
@@ -103,14 +80,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               color: Colors.black,
               semanticLabel: 'Configuração',
             ),
-            title: Text(
-              'Configuração',
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title: Text('Configuração', style: TextStylesListTile.listtile),
           ),
           ListTile(
             onTap: () {
@@ -124,14 +94,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               color: Colors.black,
               semanticLabel: 'Sair',
             ),
-            title: Text(
-              'Sair',
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title: Text('Sair', style: TextStylesListTile.listtile),
           ),
         ],
       ),

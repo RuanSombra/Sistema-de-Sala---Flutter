@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/telaInicial.dart';
+import 'package:flutter_application_1/screens/perfilProfessor.dart';
 
 class Telalogin extends StatefulWidget {
   const Telalogin({super.key});
@@ -9,14 +9,16 @@ class Telalogin extends StatefulWidget {
 }
 
 class _TelaloginState extends State<Telalogin> {
+  
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
   String? _selectedOption;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 60, 40, 90),
+        padding: const EdgeInsets.fromLTRB(40, 80, 40, 100),
         child: ListView(
           children: [
             SizedBox(
@@ -38,7 +40,7 @@ class _TelaloginState extends State<Telalogin> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             Center(
               child: SizedBox(
                 width: 270,
@@ -93,7 +95,7 @@ class _TelaloginState extends State<Telalogin> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 20),
                     SizedBox(
                       width: 303,
                       child: Form(
@@ -175,7 +177,7 @@ class _TelaloginState extends State<Telalogin> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Home(),
+                                    builder: (context) => PerfilProfessor(),
                                   ),
                                 );
                               },

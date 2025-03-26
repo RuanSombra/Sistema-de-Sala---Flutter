@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/drawer_coodenador.dart';
 import 'package:flutter_application_1/components/drawer_professor.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class PerfilProfessor extends StatefulWidget {
+  const PerfilProfessor({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<PerfilProfessor> createState() => _PerfilProfessorState();
 }
 
-class _HomeState extends State<Home> {
+class _PerfilProfessorState extends State<PerfilProfessor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Image.asset('assets/images/senai.png', height: 25),
         centerTitle: true,
-        backgroundColor: Color(0xFF0145B5),
+        backgroundColor: PrimaryColor.color,
         iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
       drawer: DrawerProfessor(),
