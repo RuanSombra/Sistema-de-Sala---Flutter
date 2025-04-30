@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/drawer_coodenador.dart';
 import 'package:flutter_application_1/components/drawer_professor.dart';
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/images.dart';
 
 class PerfilProfessor extends StatefulWidget {
   const PerfilProfessor({super.key});
@@ -12,13 +14,16 @@ class PerfilProfessor extends StatefulWidget {
 class _PerfilProfessorState extends State<PerfilProfessor> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: branco,
       appBar: AppBar(
-        title: Image.asset('assets/images/senai.png', height: 25),
+        title: Image.asset(LogoSenaiBranco, height: 25),
         centerTitle: true,
-        backgroundColor: PrimaryColor.color,
-        iconTheme: IconThemeData(color: Colors.white, size: 30),
+        backgroundColor: azulEscuro,
+        iconTheme: IconThemeData(color: branco, size: 30),
       ),
       drawer: DrawerProfessor(),
       body: Padding(
@@ -158,7 +163,7 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
                                     CircleAvatar(
                                       radius: 25,
                                       backgroundImage: AssetImage(
-                                        'assets/images/professor.png',
+                                        IconeProfessor,
                                       ),
                                     ),
 
@@ -294,7 +299,7 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
                                     CircleAvatar(
                                       radius: 25,
                                       backgroundImage: AssetImage(
-                                        'assets/images/professor.png',
+                                        IconeProfessor,
                                       ),
                                     ),
 
@@ -431,7 +436,7 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
                                     CircleAvatar(
                                       radius: 25,
                                       backgroundImage: AssetImage(
-                                        'assets/images/professor.png',
+                                        IconeProfessor,
                                       ),
                                     ),
 
