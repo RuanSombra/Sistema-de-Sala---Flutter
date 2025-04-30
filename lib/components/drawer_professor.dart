@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/drawer_coodenador.dart';
-import 'package:flutter_application_1/screens/telaLogin.dart';
+import 'package:flutter_application_1/screens/login.dart';
+
 
 class DrawerProfessor extends StatefulWidget {
   const DrawerProfessor({super.key});
@@ -86,7 +87,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Telalogin()),
+                MaterialPageRoute(builder: (context) => TelaLogin()),
               );
             },
             leading: Icon(
