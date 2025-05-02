@@ -17,6 +17,8 @@ class _TelaLoginState extends State<TelaLogin> {
   TextEditingController senhaController = TextEditingController();
   String? _selectedOption;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // Para identificar o tamanho da tela do dispositivo
@@ -49,49 +51,66 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
                 SizedBox(
                   width: 270,
                   child: Column(
                     children: [
-                      Text(
-                        'Como deseja entrar?',
-                        style: TextStyle(
-                          color: azulEscuro,
-                          fontFamily: 'Poppins',
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                       SizedBox(height: 20),
-                      DropdownButtonFormField<String>(
-                        value: _selectedOption,
-                        hint: Text('Escolha uma opção'),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          color: azulEscuro,
-                          backgroundColor: branco,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        decoration: formDecoracao(null, null, null),
-                        items:
-                            [
-                              'Coordenador',
-                              'Professor(a)',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedOption = newValue;
-                          });
-                        },
-                        /* validator: (value) {
+                      SizedBox(
+                        width: 303,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Como deseja entrar?',
+                                style: TextStyle(
+                                  color: azulEscuro,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Por favor, escolha uma opção.';
+                                  }
+                                  return null;
+                                },
+                                value: _selectedOption,
+                                hint: Text('Escolha uma opção'),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  color: azulEscuro,
+                                  backgroundColor: branco,
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                decoration: formDecoracao(null, null, null),
+                                items:
+                                    [
+                                      'Admin',
+                                      'Coordenador',
+                                      'Professor(a)',
+                                    ].map<DropdownMenuItem<String>>((
+                                      String value,
+                                    ) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _selectedOption = newValue;
+                                  });
+                                },
+                                /* validator: (value) {
                         if (value == null) {
                           return 'Por favor, selecione uma opção';
                         }
@@ -99,13 +118,8 @@ class _TelaLoginState extends State<TelaLogin> {
                       }, 
                       
                       Não está funcionando!! */
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        width: 303,
-                        child: Form(
-                          child: Column(
-                            children: [
+                              ),
+                              SizedBox(height: 20),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -119,6 +133,12 @@ class _TelaLoginState extends State<TelaLogin> {
                                   ),
                                   SizedBox(height: 5),
                                   TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Por favor, insira um email';
+                                      }
+                                      return null;
+                                    },
                                     /* validator: (String? text) {
                                     if (text?.isEmpty ?? false) {
                                       return null;
@@ -152,6 +172,12 @@ class _TelaLoginState extends State<TelaLogin> {
                                   ),
                                   SizedBox(height: 5),
                                   TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Por favor, digite uma senha!!';
+                                      }
+                                      return null;
+                                    },
                                     controller: senhaController,
                                     decoration: formDecoracao(
                                       "Insira sua senha.",
@@ -180,13 +206,22 @@ class _TelaLoginState extends State<TelaLogin> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) => telaInicialProfessor(),
-                                    ),
-                                  );
+                                  if (_formKey.currentState!.validate()) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Processando...')),
+                                    );
+
+                                    setState(() {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) =>
+                                                  telaInicialProfessor(),
+                                        ),
+                                      );
+                                    });
+                                  }
                                 },
                               ),
                               SizedBox(height: 5),
