@@ -1,16 +1,16 @@
 class Reservas {
-  String categoria;
   String id;
   String bloco;
+  String sala;
 
-  Reservas({required this.categoria, required this.bloco, required this.id});
+  Reservas({required this.id, required this.bloco, required this.sala});
 
   Reservas.fromMap(Map<String, dynamic> map)
-    : categoria = map["categoria"],
+    : id = map["id"],
       bloco = map["bloco"],
-      id = map["id"];
+      sala = map["sala"];
 
   Map<String, dynamic> toMap() {
-    return {"categoria": categoria, "bloco": bloco, "id": id};
+    return {"id": id, "bloco": bloco, "sala": sala};
   }
 }

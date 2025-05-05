@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "829109064418",
+    "project_id": "flutter-senai",
+    "storage_bucket": "flutter-senai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829109064418:android:2de05253feb5381eb584bb",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD412JKOVt4_S1JA-7oWA272hQ5k9-GiNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

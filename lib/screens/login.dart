@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
-import 'package:flutter_application_1/screens/inicialProfessor.dart';
+import 'package:flutter_application_1/screens/perfilAdmin.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
-import 'perfilProfessor.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
@@ -73,14 +72,8 @@ class _TelaLoginState extends State<TelaLogin> {
                               ),
                               SizedBox(height: 10),
                               DropdownButtonFormField<String>(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, escolha uma opção.';
-                                  }
-                                  return null;
-                                },
                                 value: _selectedOption,
-                                hint: Text('Escolha uma opção'),
+                                hint: Text('Selecione uma opção'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Poppins',
@@ -107,17 +100,15 @@ class _TelaLoginState extends State<TelaLogin> {
                                     }).toList(),
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    _selectedOption = newValue;
+                                    _selectedOption = newValue!;
                                   });
                                 },
-                                /* validator: (value) {
-                        if (value == null) {
-                          return 'Por favor, selecione uma opção';
-                        }
-                        return null;
-                      }, 
-                      
-                      Não está funcionando!! */
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Por favor, escolha uma opção.';
+                                  }
+                                  return null;
+                                },
                               ),
                               SizedBox(height: 20),
                               Column(
@@ -150,6 +141,7 @@ class _TelaLoginState extends State<TelaLogin> {
                                   
                                   Não está funcionando! */
                                     controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
                                     decoration: formDecoracao(
                                       "Insira seu email senai.",
                                       Icon(Icons.person_2),
@@ -208,16 +200,16 @@ class _TelaLoginState extends State<TelaLogin> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Processando...')),
+                                      SnackBar(
+                                        content: Text('Login Concluído'),
+                                      ),
                                     );
 
                                     setState(() {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder:
-                                              (context) =>
-                                                  telaInicialProfessor(),
+                                          builder: (context) => PerfilAdmin(),
                                         ),
                                       );
                                     });
