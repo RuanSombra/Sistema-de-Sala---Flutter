@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/screens/perfilAdmin.dart';
+import 'package:flutter_application_1/screens/perfilCoordenador.dart';
+import 'package:flutter_application_1/screens/perfilProfessor.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
 
@@ -128,6 +130,9 @@ class _TelaLoginState extends State<TelaLogin> {
                                       if (value == null || value.isEmpty) {
                                         return 'Por favor, insira um email';
                                       }
+                                      if (!value.endsWith('.senai.br')) {
+                                        return 'Por favor, insira um email válido do Senai';
+                                      }
                                       return null;
                                     },
                                     /* validator: (String? text) {
@@ -205,16 +210,76 @@ class _TelaLoginState extends State<TelaLogin> {
                                       ),
                                     );
 
-                                    setState(() {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PerfilAdmin(),
-                                        ),
-                                      );
-                                    });
+                                    // Realizando a navegação com base na opção selecionada
+                                    Widget nextPage;
+
+                                    if (_selectedOption == "Coordenador") {
+                                      nextPage = PerfilCoordenador();
+                                    } else if (_selectedOption ==
+                                        "Professor(a)") {
+                                      nextPage = PerfilProfessor();
+                                    } else {
+                                      nextPage = PerfilAdmin();
+                                    }
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => nextPage,
+                                      ),
+                                    );
                                   }
                                 },
+                                // onPressed: () {
+                                //   if (_formKey.currentState!.validate()) {
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //         content: Text('Login Concluído'),
+                                //       ),
+                                //     );
+
+                                //     setState(() {
+                                //       Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //           builder: (context) {
+                                //             if (_selectedOption ==
+                                //                 "Coordenador") {
+                                //               Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder:
+                                //                       (context) =>
+                                //                           PerfilCoordenador(),
+                                //                 ),
+                                //               );
+                                //               if (_selectedOption ==
+                                //                   "Professor") {
+                                //                 Navigator.push(
+                                //                   context,
+                                //                   MaterialPageRoute(
+                                //                     builder:
+                                //                         (context) =>
+                                //                             PerfilProfessor(),
+                                //                   ),
+                                //                 );
+                                //               }
+                                //             } else {
+                                //               Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder:
+                                //                       (context) =>
+                                //                           PerfilAdmin(),
+                                //                 ),
+                                //               );
+                                //             }
+                                //           },
+                                //         ),
+                                //       );
+                                //     });
+                                //   }
+                                // },
                               ),
                               SizedBox(height: 5),
                               Row(
