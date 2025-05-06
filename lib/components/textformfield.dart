@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/style/colors.dart';
 
-InputDecoration formDecoracao(String? text, Icon? suffixicon, Icon? prefixicon) {
+InputDecoration formDecoracao(
+  String? text,
+  IconButton? suffixicon,
+  Icon? prefixicon,
+) {
   return InputDecoration(
     hintText: text,
     hintStyle: TextStyle(color: cinzaEscuro, fontSize: 15),
