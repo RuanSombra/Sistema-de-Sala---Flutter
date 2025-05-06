@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/login.dart';
+import 'drawer_coodenador.dart';
 
-
-class DrawerCoodenador extends StatefulWidget {
-  const DrawerCoodenador({super.key});
+class DrawerAdmin extends StatefulWidget {
+  const DrawerAdmin({super.key});
 
   @override
-  State<DrawerCoodenador> createState() => _DrawerCoodenadorState();
+  State<DrawerAdmin> createState() => _DrawerAdminState();
 }
 
-class _DrawerCoodenadorState extends State<DrawerCoodenador> {
+class _DrawerAdminState extends State<DrawerAdmin> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -41,12 +41,12 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Felipe Guerrero',
+                            'Admin',
                             style: TextStylesPerfil.perfilstyle,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            'Coordenador',
+                            'Administrador',
                             style: TextStylesOcupacao.cargostyle,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -122,34 +122,4 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
       ),
     );
   }
-}
-
-class TextStylesListTile {
-  static const TextStyle listtile = TextStyle(
-    fontSize: 16,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.bold,
-  );
-}
-
-class TextStylesPerfil {
-  static const TextStyle perfilstyle = TextStyle(
-    fontSize: 18,
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Poppins',
-  );
-}
-
-class TextStylesOcupacao {
-  static const TextStyle cargostyle = TextStyle(
-    fontSize: 12,
-    color: Colors.white70,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Poppins',
-  );
-}
-
-class PrimaryColor {
-  static const Color color = Color(0xFF0145B5);
 }

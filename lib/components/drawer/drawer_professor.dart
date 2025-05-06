@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/drawer_coodenador.dart';
+import 'package:flutter_application_1/components/drawer/drawer_coodenador.dart';
 import 'package:flutter_application_1/screens/login.dart';
-
+import 'package:flutter_application_1/style/images.dart';
 
 class DrawerProfessor extends StatefulWidget {
   const DrawerProfessor({super.key});
@@ -26,7 +26,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundImage: AssetImage('assets/images/professor.png'),
+                    backgroundImage: AssetImage(FotoProfessor),
                   ),
 
                   SizedBox(width: 20),
@@ -42,7 +42,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
                           style: TextStylesPerfil.perfilstyle,
                         ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
                         Text(
-                          'Técnico em Eletroeletronica',
+                          'Técnico em TI',
                           style: TextStylesOcupacao.cargostyle,
                           overflow: TextOverflow.ellipsis,
                         ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
