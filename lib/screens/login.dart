@@ -17,7 +17,7 @@ class _TelaLoginState extends State<TelaLogin> {
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
   String? _selectedOption;
-
+  bool _obscureText = true;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -149,7 +149,10 @@ class _TelaLoginState extends State<TelaLogin> {
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: formDecoracao(
                                       "Insira seu email senai.",
-                                      Icon(Icons.person_2),
+                                      IconButton(
+                                        icon: Icon(Icons.person_2),
+                                        onPressed: () {},
+                                      ),
                                       null,
                                     ),
                                   ),
@@ -175,10 +178,25 @@ class _TelaLoginState extends State<TelaLogin> {
                                       }
                                       return null;
                                     },
+                                    obscureText: _obscureText,
                                     controller: senhaController,
                                     decoration: formDecoracao(
                                       "Insira sua senha.",
-                                      Icon(Icons.remove_red_eye),
+
+                                      // Ocultar ou mostrar senha
+
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                        ),
+                                      ),
                                       null,
                                     ),
                                   ),

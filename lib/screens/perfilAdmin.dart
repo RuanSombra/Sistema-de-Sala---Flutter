@@ -14,7 +14,7 @@ class PerfilAdmin extends StatefulWidget {
 
 class _PerfilAdminState extends State<PerfilAdmin> {
   List<Reservas> listReservas = [];
-
+  bool _customTileExpanded = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
@@ -64,6 +64,11 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                       ),
                       margin: EdgeInsets.all(10),
                       child: ExpansionTile(
+                        onExpansionChanged: (bool expanded) {
+                          setState(() {
+                            _customTileExpanded = expanded;
+                          });
+                        },
                         backgroundColor: azulEscuro,
                         collapsedIconColor: branco,
                         iconColor: branco,
@@ -105,7 +110,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-
+                      
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
