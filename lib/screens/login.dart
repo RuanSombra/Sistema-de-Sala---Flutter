@@ -3,7 +3,6 @@ import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/screens/inicialProfessor.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
-import 'perfilProfessor.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
