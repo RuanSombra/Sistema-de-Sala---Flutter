@@ -52,7 +52,7 @@ class Reservalivre extends StatelessWidget {
                         Icon(Icons.circle, size: 15, color: Colors.green),
                       ],
                     ),
-                    /* Text("Mais Informações"), */
+                    /* Text("Mais Informações"), */ 
                   ],
                 ),
               ],
