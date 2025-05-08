@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
+import 'package:flutter_application_1/screens/cadastro.dart';
 import 'package:flutter_application_1/screens/perfilAdmin.dart';
 import 'package:flutter_application_1/screens/perfilCoordenador.dart';
 import 'package:flutter_application_1/screens/perfilProfessor.dart';
+import 'package:flutter_application_1/service/authentication.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
 
@@ -14,11 +16,15 @@ class TelaLogin extends StatefulWidget {
 }
 
 class _TelaLoginState extends State<TelaLogin> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
   String? _selectedOption;
   bool _obscureText = true;
+
   final _formKey = GlobalKey<FormState>();
+
+  final Authentication _authService = Authentication();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,55 +69,55 @@ class _TelaLoginState extends State<TelaLogin> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              Text(
-                                'Como deseja entrar?',
-                                style: TextStyle(
-                                  color: azulEscuro,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              // Text(
+                              //   'Como deseja entrar?',
+                              //   style: TextStyle(
+                              //     color: azulEscuro,
+                              //     fontFamily: 'Poppins',
+                              //     fontSize: 21,
+                              //     fontWeight: FontWeight.bold,
+                              //   ),
+                              // ),
                               SizedBox(height: 10),
-                              DropdownButtonFormField<String>(
-                                value: _selectedOption,
-                                hint: Text('Selecione uma opção'),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  color: azulEscuro,
-                                  backgroundColor: branco,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                decoration: formDecoracao(null, null, null),
-                                items:
-                                    [
-                                      'Admin',
-                                      'Coordenador',
-                                      'Professor(a)',
-                                    ].map<DropdownMenuItem<String>>((
-                                      String value,
-                                    ) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedOption = newValue!;
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, escolha uma opção.';
-                                  }
-                                  return null;
-                                },
-                              ),
+                              // DropdownButtonFormField<String>(
+                              //   value: _selectedOption,
+                              //   hint: Text('Selecione uma opção'),
+                              //   style: TextStyle(
+                              //     fontSize: 14,
+                              //     fontFamily: 'Poppins',
+                              //     fontWeight: FontWeight.w700,
+                              //     color: azulEscuro,
+                              //     backgroundColor: branco,
+                              //   ),
+                              //   borderRadius: BorderRadius.all(
+                              //     Radius.circular(10),
+                              //   ),
+                              //   decoration: formDecoracao(null, null, null),
+                              //   items:
+                              //       [
+                              //         'Admin',
+                              //         'Coordenador',
+                              //         'Professor(a)',
+                              //       ].map<DropdownMenuItem<String>>((
+                              //         String value,
+                              //       ) {
+                              //         return DropdownMenuItem<String>(
+                              //           value: value,
+                              //           child: Text(value),
+                              //         );
+                              //       }).toList(),
+                              //   onChanged: (String? newValue) {
+                              //     setState(() {
+                              //       _selectedOption = newValue!;
+                              //     });
+                              //   },
+                              //   validator: (value) {
+                              //     if (value == null || value.isEmpty) {
+                              //       return 'Por favor, escolha uma opção.';
+                              //     }
+                              //     return null;
+                              //   },
+                              // ),
                               SizedBox(height: 20),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,18 +139,11 @@ class _TelaLoginState extends State<TelaLogin> {
                                       if (!value.endsWith('.senai.br')) {
                                         return 'Por favor, insira um email válido do Senai';
                                       }
+                                      if (!value.contains('@')) {
+                                        return 'O email não é válido';
+                                      }
                                       return null;
                                     },
-                                    /* validator: (String? text) {
-                                    if (text?.isEmpty ?? false) {
-                                      return null;
-                                    } if(text?.endsWith('.senai.br') ?? false){
-                                      return null;
-                                    }
-                                        return 'Por favor, adicione um email válido.';
-                                  },
-                                  
-                                  Não está funcionando! */
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: formDecoracao(
@@ -184,7 +183,6 @@ class _TelaLoginState extends State<TelaLogin> {
                                       "Insira sua senha.",
 
                                       // Ocultar ou mostrar senha
-
                                       IconButton(
                                         onPressed: () {
                                           setState(() {
@@ -220,89 +218,93 @@ class _TelaLoginState extends State<TelaLogin> {
                                     color: branco,
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
+                                  String email = emailController.text.trim();
+                                  String senha = senhaController.text.trim();
+
                                   if (_formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Login Concluído'),
-                                      ),
-                                    );
+                                    try {
+                                      // Faz login
+                                      final user = await _authService.loginUser(
+                                        email: email,
+                                        senha: senha,
+                                      );
 
-                                    // Realizando a navegação com base na opção selecionada
-                                    Widget nextPage;
+                                      if (user != null) {
+                                        // Busca tipo no Firestore
+                                        String? tipo = await _authService
+                                            .buscarTipoUsuario(user.uid);
 
-                                    if (_selectedOption == "Coordenador") {
-                                      nextPage = PerfilCoordenador();
-                                    } else if (_selectedOption ==
-                                        "Professor(a)") {
-                                      nextPage = PerfilProfessor();
-                                    } else {
-                                      nextPage = PerfilAdmin();
+                                        if (tipo == null) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Tipo de usuário não encontrado.',
+                                              ),
+                                            ),
+                                          );
+                                          return;
+                                        }
+
+                                        // Redireciona com base no tipo
+                                        Widget nextPage;
+
+                                        if (tipo == "Coordenador") {
+                                          nextPage = PerfilCoordenador();
+                                        } else if (tipo == "Professor(a)") {
+                                          nextPage = PerfilProfessor();
+                                        } else if (tipo == "Admin") {
+                                          nextPage = PerfilAdmin();
+                                        } else {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Tipo de usuário inválido.',
+                                              ),
+                                            ),
+                                          );
+                                          return;
+                                        }
+
+                                        // Navega
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => nextPage,
+                                          ),
+                                        );
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Login realizado com sucesso!',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Erro de login: $e'),
+                                        ),
+                                      );
                                     }
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => nextPage,
-                                      ),
-                                    );
                                   }
                                 },
-                                // onPressed: () {
-                                //   if (_formKey.currentState!.validate()) {
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //         content: Text('Login Concluído'),
-                                //       ),
-                                //     );
-
-                                //     setState(() {
-                                //       Navigator.push(
-                                //         context,
-                                //         MaterialPageRoute(
-                                //           builder: (context) {
-                                //             if (_selectedOption ==
-                                //                 "Coordenador") {
-                                //               Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder:
-                                //                       (context) =>
-                                //                           PerfilCoordenador(),
-                                //                 ),
-                                //               );
-                                //               if (_selectedOption ==
-                                //                   "Professor") {
-                                //                 Navigator.push(
-                                //                   context,
-                                //                   MaterialPageRoute(
-                                //                     builder:
-                                //                         (context) =>
-                                //                             PerfilProfessor(),
-                                //                   ),
-                                //                 );
-                                //               }
-                                //             } else {
-                                //               Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder:
-                                //                       (context) =>
-                                //                           PerfilAdmin(),
-                                //                 ),
-                                //               );
-                                //             }
-                                //           },
-                                //         ),
-                                //       );
-                                //     });
-                                //   }
-                                // },
                               ),
                               SizedBox(height: 5),
-                              Row(
+                              Column(
                                 children: [
-                                  GestureDetector(
+                                  TextButton(
+                                    onPressed: () {},
                                     child: Text(
                                       "Esqueceu sua senha?",
                                       style: TextStyle(
@@ -311,9 +313,24 @@ class _TelaLoginState extends State<TelaLogin> {
                                         decorationColor: azulEscuro,
                                       ),
                                     ),
-                                    onTap: () {
-                                      print("Está funcionando corretamente!!");
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TelaCadastro(),
+                                        ),
+                                      );
                                     },
+                                    child: Text(
+                                      "Não tem uma conta? Cadastre-se",
+                                      style: TextStyle(
+                                        color: azulEscuro,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: azulEscuro,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
