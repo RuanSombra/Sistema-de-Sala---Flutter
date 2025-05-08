@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/drawer_admin.dart';
+import 'package:flutter_application_1/components/drawer/drawer_admin.dart';
 import 'package:flutter_application_1/models/reservas.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:uuid/uuid.dart';

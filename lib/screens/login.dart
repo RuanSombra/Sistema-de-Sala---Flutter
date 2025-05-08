@@ -52,6 +52,7 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
                 ),
+                SizedBox(height: 30),
                 SizedBox(
                   width: 270,
                   child: Column(
@@ -135,23 +136,13 @@ class _TelaLoginState extends State<TelaLogin> {
                                       }
                                       return null;
                                     },
-                                    /* validator: (String? text) {
-                                    if (text?.isEmpty ?? false) {
-                                      return null;
-                                    } if(text?.endsWith('.senai.br') ?? false){
-                                      return null;
-                                    }
-                                        return 'Por favor, adicione um email válido.';
-                                  },
-                                  
-                                  Não está funcionando! */
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: formDecoracao(
                                       "Insira seu email senai.",
                                       IconButton(
                                         icon: Icon(Icons.person_2),
-                                        onPressed: () {},
+                                        onPressed: null,
                                       ),
                                       null,
                                     ),
