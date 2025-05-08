@@ -6,16 +6,16 @@ class Reservalivre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: preto,
-      body: SizedBox(
-        width: 320,
-        height: 70,
-        child: Card(
+    return SizedBox(
+      width: 370,
+      height: 70,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 25),
                 GestureDetector(
@@ -49,10 +49,9 @@ class Reservalivre extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 2),
-                        Icon(Icons.circle, size: 15, color: Colors.green),
+                        Icon(Icons.circle, size: 15, color: verde),
                       ],
                     ),
-                    /* Text("Mais Informações"), */ 
                   ],
                 ),
               ],
