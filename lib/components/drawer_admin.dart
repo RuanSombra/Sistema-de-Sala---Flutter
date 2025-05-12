@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/authentication/screens/login_screen.dart';
 import 'package:flutter_application_1/components/drawer_coodenador.dart';
-import 'package:flutter_application_1/screens/login.dart';
 
 class DrawerAdmin extends StatefulWidget {
   const DrawerAdmin({super.key});
@@ -107,7 +107,7 @@ class _DrawerAdminState extends State<DrawerAdmin> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TelaLogin()),
+                MaterialPageRoute(builder: (context) => LoginScreen()),
               );
             },
             leading: Icon(

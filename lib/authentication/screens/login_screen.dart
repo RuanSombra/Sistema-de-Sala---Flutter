@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/authentication/screens/register_screen.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
-import 'package:flutter_application_1/screens/cadastro.dart';
 import 'package:flutter_application_1/screens/perfilAdmin.dart';
 import 'package:flutter_application_1/screens/perfilCoordenador.dart';
 import 'package:flutter_application_1/screens/perfilProfessor.dart';
-import 'package:flutter_application_1/service/authentication.dart';
+import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
 
-class TelaLogin extends StatefulWidget {
-  const TelaLogin({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<TelaLogin> createState() => _TelaLoginState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _TelaLoginState extends State<TelaLogin> {
-  String? _selectedOption;
+class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
 
   final _formKey = GlobalKey<FormState>();
@@ -58,6 +57,13 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                Text(
+                  'Faça seu login para reservar salas.',
+                  style: TextStyle(fontFamily: 'Inter', color: preto),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
                 SizedBox(
                   width: 270,
                   child: Column(
@@ -69,55 +75,7 @@ class _TelaLoginState extends State<TelaLogin> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              // Text(
-                              //   'Como deseja entrar?',
-                              //   style: TextStyle(
-                              //     color: azulEscuro,
-                              //     fontFamily: 'Poppins',
-                              //     fontSize: 21,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
                               SizedBox(height: 10),
-                              // DropdownButtonFormField<String>(
-                              //   value: _selectedOption,
-                              //   hint: Text('Selecione uma opção'),
-                              //   style: TextStyle(
-                              //     fontSize: 14,
-                              //     fontFamily: 'Poppins',
-                              //     fontWeight: FontWeight.w700,
-                              //     color: azulEscuro,
-                              //     backgroundColor: branco,
-                              //   ),
-                              //   borderRadius: BorderRadius.all(
-                              //     Radius.circular(10),
-                              //   ),
-                              //   decoration: formDecoracao(null, null, null),
-                              //   items:
-                              //       [
-                              //         'Admin',
-                              //         'Coordenador',
-                              //         'Professor(a)',
-                              //       ].map<DropdownMenuItem<String>>((
-                              //         String value,
-                              //       ) {
-                              //         return DropdownMenuItem<String>(
-                              //           value: value,
-                              //           child: Text(value),
-                              //         );
-                              //       }).toList(),
-                              //   onChanged: (String? newValue) {
-                              //     setState(() {
-                              //       _selectedOption = newValue!;
-                              //     });
-                              //   },
-                              //   validator: (value) {
-                              //     if (value == null || value.isEmpty) {
-                              //       return 'Por favor, escolha uma opção.';
-                              //     }
-                              //     return null;
-                              //   },
-                              // ),
                               SizedBox(height: 20),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,7 +277,8 @@ class _TelaLoginState extends State<TelaLogin> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => TelaCadastro(),
+                                          builder:
+                                              (context) => RegisterScreen(),
                                         ),
                                       );
                                     },

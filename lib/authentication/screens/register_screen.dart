@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/service/authentication.dart'; // Atualize o caminho conforme seu projeto
+import 'package:flutter_application_1/authentication/service/authentication.dart'; // Atualize o caminho conforme seu projeto
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 
-class TelaCadastro extends StatefulWidget {
-  const TelaCadastro({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<TelaCadastro> createState() => _TelaCadastroState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _TelaCadastroState extends State<TelaCadastro> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final Authentication _authService = Authentication();
 
