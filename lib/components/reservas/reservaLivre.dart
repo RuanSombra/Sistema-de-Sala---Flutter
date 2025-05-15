@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/reservando.dart';
 import 'package:flutter_application_1/style/colors.dart';
 
 class Reservalivre extends StatelessWidget {
@@ -30,7 +31,7 @@ class Reservalivre extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    print("Está funcionando!");
+                    modalReservas(context);
                   },
                 ),
                 Column(
