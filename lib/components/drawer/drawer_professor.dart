@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/drawer/drawer_coodenador.dart';
 import 'package:flutter_application_1/screens/login.dart';
-
+import 'package:flutter_application_1/style/colors.dart';
+import 'package:flutter_application_1/style/drawerTexts.dart';
+import 'package:flutter_application_1/style/images.dart';
 
 class DrawerProfessor extends StatefulWidget {
   const DrawerProfessor({super.key});
@@ -14,6 +16,44 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: azulEscuro),
+            child: Container(
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: AssetImage(FotoProfessor),
+                  ),
+                  SizedBox(
+                    width: 173,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Eduardo Almeida',
+                          style: TextStyleUsuario.usuario,
+                        ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
+                        Text(
+                          'Técnico em Eletroeletronica',
+                          style: TextStyleCargo.cargo,
+                          overflow: TextOverflow.ellipsis,
+                        ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    /* Drawer(
       shape: Border.all(color: Colors.black),
       child: ListView(
         padding: EdgeInsets.all(0.8),
@@ -59,9 +99,9 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               Icons.checklist,
               size: 25,
               color: Colors.black,
-              semanticLabel: 'Reserva Sala',
+              semanticLabel: 'Minhas reservas',
             ),
-            title: Text('Reservar Sala', style: TextStylesListTile.listtile),
+            title: Text('Minhas reservas', style: TextStylesListTile.listtile),
           ),
           ListTile(
             onTap: () {},
@@ -99,6 +139,6 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
           ),
         ],
       ),
-    );
+    ); */
   }
 }

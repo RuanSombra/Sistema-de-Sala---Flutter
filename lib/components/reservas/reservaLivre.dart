@@ -11,6 +11,7 @@ class Reservalivre extends StatelessWidget {
       width: 370,
       height: 70,
       child: Card(
+        color: cinzaClaro,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(

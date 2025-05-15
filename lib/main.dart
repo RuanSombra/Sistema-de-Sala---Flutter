@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/reservas/reservaLivre.dart';
-import 'package:flutter_application_1/components/reservas/reservaOcupada.dart';
 import 'package:flutter_application_1/firebase_options.dart';
-import 'package:flutter_application_1/screens/login.dart';
-import 'package:flutter_application_1/screens/perfilAdmin.dart';
-import 'package:flutter_application_1/screens/perfilProfessor.dart';
+import 'package:flutter_application_1/screens/professor/minhasReservas.dart';
+import 'package:flutter_application_1/screens/professor/perfilProfessor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Reservaocupada(),
+      home: PerfilProfessor(),
     );
   }
 }
