@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/drawer_admin.dart';
-import 'package:flutter_application_1/models/reservas.dart';
+import 'package:flutter_application_1/components/drawers/drawer_admin.dart';
+import 'package:flutter_application_1/models/blocos.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:uuid/uuid.dart';
 
 class PerfilAdmin extends StatefulWidget {
-  const PerfilAdmin({super.key});
+  final User user;
+  const PerfilAdmin({super.key, required this.user});
 
   @override
   State<PerfilAdmin> createState() => _PerfilAdminState();
 }
 
 class _PerfilAdminState extends State<PerfilAdmin> {
-  List<Reservas> listReservas = [];
+  List<Blocos> listBlocos = [];
   bool customTileExpanded = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -32,7 +34,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
         backgroundColor: azulEscuro,
         iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
-      drawer: DrawerAdmin(),
+      drawer: DrawerAdmin(user: widget.user),
       floatingActionButton: FloatingActionButton(
         backgroundColor: azulEscuro,
         shape: CircleBorder(),
@@ -42,7 +44,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
         child: Icon(Icons.add, color: branco),
       ),
       body:
-          (listReservas.isEmpty)
+          (listBlocos.isEmpty)
               ? Center(
                 child: Text(
                   "Nenhuma sala registrada!! \nAdicione a sua primeira sala.",
@@ -55,8 +57,8 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                   return refresh();
                 },
                 child: ListView(
-                  children: List.generate(listReservas.length, (index) {
-                    Reservas model = listReservas[index];
+                  children: List.generate(listBlocos.length, (index) {
+                    Blocos model = listBlocos[index];
                     return Card(
                       color: Color(0xFF0145B5),
                       shape: RoundedRectangleBorder(
@@ -73,7 +75,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                         collapsedIconColor: branco,
                         iconColor: branco,
                         title: Text(
-                          model.bloco,
+                          model.nome,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -83,7 +85,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                         ),
                         children: [
                           Dismissible(
-                            key: ValueKey<Reservas>(model),
+                            key: ValueKey<Blocos>(model),
                             onDismissed: (direction) {
                               remove(model);
                             },
@@ -111,29 +113,29 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                                         ),
                                       ),
 
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                model.sala,
-                                                style: TextStyle(
-                                                  fontFamily: 'Inter',
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Icon(
-                                                Icons.circle,
-                                                color: verde,
-                                                size: 15,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                      // Column(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.start,
+                                      //   children: [
+                                      //     Row(
+                                      //       children: [
+                                      //         Text(
+                                      //           model.sala,
+                                      //           style: TextStyle(
+                                      //             fontFamily: 'Inter',
+                                      //             fontSize: 10,
+                                      //             fontWeight: FontWeight.bold,
+                                      //           ),
+                                      //         ),
+                                      //         Icon(
+                                      //           Icons.circle,
+                                      //           color: verde,
+                                      //           size: 15,
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -149,20 +151,19 @@ class _PerfilAdminState extends State<PerfilAdmin> {
     );
   }
 
-  showModalSala({Reservas? model}) {
+  showModalSala({Blocos? model}) {
     // Labels à serem mostradas no Modal
-    String title = "Adicionar Sala";
+    String title = "Adicionar Bloco";
     String confirmationButton = "Salvar";
     String skipButton = "Cancelar";
 
     // Controlador do campo que receberá o nome
-    TextEditingController salaController = TextEditingController();
     TextEditingController blocoController = TextEditingController();
 
     // Caso esteja editando
     if (model != null) {
-      title = "Editando ${model.sala}";
-      salaController.text = model.sala;
+      title = "Editando ${model.nome}";
+      blocoController.text = model.nome;
     }
 
     // Função do Flutter que mostra o modal na tela
@@ -184,10 +185,6 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                 controller: blocoController,
                 decoration: InputDecoration(label: Text("Bloco da Sala")),
               ),
-              TextFormField(
-                controller: salaController,
-                decoration: InputDecoration(label: Text("Sala do Bloco")),
-              ),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -202,15 +199,14 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                   ElevatedButton(
                     onPressed: () {
                       // Criar um objeto Reservas com as infos
-                      Reservas reservas = Reservas(
+                      Blocos blocos = Blocos(
                         id: Uuid().v1(),
-                        bloco: blocoController.text,
-                        sala: salaController.text,
+                        nome: blocoController.text,
                       );
 
                       // Usar o ID do model
                       if (model != null) {
-                        reservas.id = model.id;
+                        blocos.id = model.id;
                       }
 
                       // Atualizar as Reservas
@@ -219,8 +215,8 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                       // Salvar no Firestore
                       firestore
                           .collection("reservas")
-                          .doc(reservas.id)
-                          .set(reservas.toMap());
+                          .doc(blocos.id)
+                          .set(blocos.toMap());
 
                       // Fechar o modal
                       Navigator.pop(context);
@@ -237,20 +233,20 @@ class _PerfilAdminState extends State<PerfilAdmin> {
   }
 
   refresh() async {
-    List<Reservas> temp = [];
+    List<Blocos> temp = [];
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await firestore.collection("reservas").get();
 
     for (var doc in snapshot.docs) {
-      temp.add(Reservas.fromMap(doc.data()));
+      temp.add(Blocos.fromMap(doc.data()));
     }
 
     setState(() {
-      listReservas = temp;
+      listBlocos = temp;
     });
   }
 
-  void remove(Reservas model) {
+  void remove(Blocos model) {
     firestore.collection("reservas").doc(model.id).delete();
   }
 }

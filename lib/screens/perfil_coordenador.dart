@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/drawer_coodenador.dart';
+import 'package:flutter_application_1/components/drawers/drawer_coodenador.dart';
 
 class PerfilCoordenador extends StatefulWidget {
-  const PerfilCoordenador({super.key});
+  final User user;
+
+  const PerfilCoordenador({super.key, required this.user});
 
   @override
   State<PerfilCoordenador> createState() => _PerfilCoordenadorState();
@@ -19,7 +22,7 @@ class _PerfilCoordenadorState extends State<PerfilCoordenador> {
         backgroundColor: PrimaryColor.color,
         iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
-      drawer: DrawerCoodenador(),
+      drawer: DrawerCoodenador(user: widget.user),
       body: Padding(
         padding: const EdgeInsets.only(left: 14, right: 14, top: 22),
         child: ListView(

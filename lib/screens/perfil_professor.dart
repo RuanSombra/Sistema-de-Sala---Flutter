@@ -1,11 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/style/colors.dart';
-import '../components/drawer_professor.dart';
+import '../components/drawers/drawer_professor.dart';
+import '../models/blocos.dart';
 import '../style/images.dart';
 
-class telaInicialProfessor extends StatelessWidget {
-  const telaInicialProfessor({super.key});
+class PerfilProfessor extends StatefulWidget {
+  final User user;
+
+  const PerfilProfessor({super.key, required this.user});
+
+  @override
+  State<PerfilProfessor> createState() => _PerfilProfessorState();
+}
+
+class _PerfilProfessorState extends State<PerfilProfessor> {
+  List<Blocos> listBlocos = [];
+  bool customTileExpanded = false;
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +41,7 @@ class telaInicialProfessor extends StatelessWidget {
         backgroundColor: azulEscuro,
         iconTheme: IconThemeData(color: branco, size: 30),
       ),
-      drawer: DrawerProfessor(),
+      drawer: DrawerProfessor(user: widget.user),
       body: SingleChildScrollView(
         child: SizedBox(
           width: width,
@@ -217,5 +238,19 @@ class telaInicialProfessor extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  refresh() async {
+    List<Blocos> temp = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await firestore.collection("reservas").get();
+
+    for (var doc in snapshot.docs) {
+      temp.add(Blocos.fromMap(doc.data()));
+    }
+
+    setState(() {
+      listBlocos = temp;
+    });
   }
 }

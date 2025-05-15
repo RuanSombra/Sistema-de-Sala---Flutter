@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/authentication/screens/login_screen.dart';
+import 'package:flutter_application_1/authentication/service/auth_service.dart';
+import '../../style/images.dart';
 
 class DrawerCoodenador extends StatefulWidget {
-  const DrawerCoodenador({super.key});
+  final User user;
+  const DrawerCoodenador({super.key, required this.user});
 
   @override
   State<DrawerCoodenador> createState() => _DrawerCoodenadorState();
@@ -16,48 +19,22 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
       child: ListView(
         padding: EdgeInsets.all(0.8),
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: PrimaryColor.color),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundImage: AssetImage(
-                      'assets/images/coordenador.png',
-                    ),
-                  ),
-
-                  SizedBox(height: 20),
-
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SizedBox(
-                      width: 173,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Felipe Guerrero',
-                            style: TextStylesPerfil.perfilstyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            'Coordenador',
-                            style: TextStylesOcupacao.cargostyle,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: AssetImage(IconeProfessor),
+            ),
+            decoration: BoxDecoration(color: Color(0xFF0145B5)),
+            accountName: Text(
+              (widget.user.displayName != null) ? widget.user.displayName! : "",
+              style: TextStylesPerfil.perfilstyle,
+              overflow: TextOverflow.ellipsis,
+            ),
+            accountEmail: Text(
+              widget.user.email!,
+              style: TextStylesOcupacao.cargostyle,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-
           ListTile(
             onTap: () {},
             leading: Icon(
@@ -104,10 +81,9 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
 
           ListTile(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
+              setState(() {
+                AuthService().logoutUser();
+              });
             },
             leading: Icon(
               Icons.logout,
@@ -134,7 +110,7 @@ class TextStylesListTile {
 class TextStylesPerfil {
   static const TextStyle perfilstyle = TextStyle(
     fontSize: 18,
-    color: Colors.white,
+    color: Colors.black,
     fontWeight: FontWeight.bold,
     fontFamily: 'Poppins',
   );
