@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/style/colors.dart';
-import '../components/drawer/drawer_professor.dart';
+import '../../components/drawer/drawer_professor.dart';
 /* import '../components/blocos.dart';
 import '../components/reservas/reservaLivre.dart';
 import '../components/reservas/reservaOcupada.dart'; */
-import '../style/images.dart';
+import '../../style/images.dart';
 
 class PerfilProfessor extends StatelessWidget {
   const PerfilProfessor({super.key});

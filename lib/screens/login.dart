@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/screens/perfilAdmin.dart';
 import 'package:flutter_application_1/screens/perfilCoordenador.dart';
-import 'package:flutter_application_1/screens/perfilProfessor.dart';
+import 'package:flutter_application_1/screens/professor/perfilProfessor.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
 
