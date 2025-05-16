@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/authentication/service/auth_service.dart';
+import '../../authentication/service/authentication.dart';
 import '../../style/images.dart';
 
 class DrawerCoodenador extends StatefulWidget {
@@ -25,7 +25,7 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
             ),
             decoration: BoxDecoration(color: Color(0xFF0145B5)),
             accountName: Text(
-              (widget.user.displayName != null) ? widget.user.displayName! : "",
+              widget.user.displayName!,
               style: TextStylesPerfil.perfilstyle,
               overflow: TextOverflow.ellipsis,
             ),
@@ -82,7 +82,7 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
           ListTile(
             onTap: () {
               setState(() {
-                AuthService().logoutUser();
+                Authentication().deslogar();
               });
             },
             leading: Icon(

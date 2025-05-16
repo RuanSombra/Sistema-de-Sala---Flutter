@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/authentication/screens/auth_screen.dart';
 import 'package:flutter_application_1/authentication/screens/home_screen.dart';
+import 'package:flutter_application_1/authentication/screens/login_screen.dart';
 import 'package:flutter_application_1/firebase_options.dart';
 
 void main() async {
@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {'/login': (context) => LoginScreen()},
       debugShowCheckedModeBanner: false,
       home: const RoteadorTelas(),
     );
@@ -51,7 +52,7 @@ class RoteadorTelas extends StatelessWidget {
         }
 
         // Se o usuário não está logado
-        return const AuthScreen();
+        return const LoginScreen();
       },
     );
   }

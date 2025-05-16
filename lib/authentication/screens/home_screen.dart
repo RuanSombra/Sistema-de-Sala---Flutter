@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/authentication/service/auth_service.dart';
+import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/screens/perfil_admin.dart';
 import 'package:flutter_application_1/screens/perfil_coordenador.dart';
 import 'package:flutter_application_1/screens/perfil_professor.dart';
@@ -22,17 +22,19 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService authService = AuthService();
+    final Authentication authService = Authentication();
 
     return FutureBuilder<String?>(
-      future: authService.searchTypeUser(user.uid),
+      future: authService.buscarTipoUsuario(user.uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
 
         if (snapshot.hasError || !snapshot.hasData) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(child: Text('Erro ao carregar tipo de usuário.')),
           );
         }
@@ -46,14 +48,14 @@ class HomeScreen extends StatelessWidget {
           );
         }
 
-        // Redireciona para a tela correta (substitui a atual)
-        Future.microtask(() {
+        // Redireciona após o frame atual ser concluído
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.of(
             context,
           ).pushReplacement(MaterialPageRoute(builder: (_) => nextPage));
         });
 
-        return Scaffold(body: Center(child: Text('Redirecionando...')));
+        return const Scaffold(body: Center(child: Text('Redirecionando...')));
       },
     );
   }

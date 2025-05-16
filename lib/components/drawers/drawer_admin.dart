@@ -1,13 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/authentication/service/auth_service.dart';
+import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/components/drawers/drawer_coodenador.dart';
 
 import '../../style/images.dart';
 
 class DrawerAdmin extends StatefulWidget {
-  DrawerAdmin({super.key, required this.user});
   late User user;
+  DrawerAdmin({super.key, required this.user});
+
   @override
   State<DrawerAdmin> createState() => _DrawerAdminState();
 }
@@ -27,7 +28,6 @@ class _DrawerAdminState extends State<DrawerAdmin> {
             decoration: BoxDecoration(color: Color(0xFF0145B5)),
             accountName: Text(
               (widget.user.displayName != null) ? widget.user.displayName! : "",
-
               overflow: TextOverflow.ellipsis,
             ),
             accountEmail: Text(
@@ -125,7 +125,7 @@ class _DrawerAdminState extends State<DrawerAdmin> {
           ListTile(
             onTap: () {
               setState(() {
-                AuthService().logoutUser();
+                Authentication().deslogar();
               });
             },
             leading: Icon(

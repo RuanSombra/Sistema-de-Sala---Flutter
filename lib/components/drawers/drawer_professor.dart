@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/components/drawers/drawer_coodenador.dart';
-import '../../authentication/service/auth_service.dart';
 
 class DrawerProfessor extends StatefulWidget {
   final User user;
@@ -12,20 +13,35 @@ class DrawerProfessor extends StatefulWidget {
 }
 
 class _DrawerProfessorState extends State<DrawerProfessor> {
+  String? _nome;
   late User _user;
 
   @override
   void initState() {
     super.initState();
     _user = widget.user;
-    _carregarUsuarioAtualizado();
+    _carregarUsuarioDoFirestore();
   }
 
-  Future<void> _carregarUsuarioAtualizado() async {
-    await _user.reload();
-    setState(() {
-      _user = FirebaseAuth.instance.currentUser!;
-    });
+  // Future<void> _carregarUsuarioAtualizado() async {
+  //   await _user.reload();
+  //   setState(() {
+  //     _user = FirebaseAuth.instance.currentUser!;
+  //   });
+  // }
+
+  Future<void> _carregarUsuarioDoFirestore() async {
+    final doc =
+        await FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(_user.uid)
+            .get();
+    if (doc.exists) {
+      final data = doc.data();
+      setState(() {
+        _nome = data?['nome'] ?? '';
+      });
+    }
   }
 
   @override
@@ -37,7 +53,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: const CircleAvatar(
-              backgroundImage: AssetImage(''),
+              backgroundImage: AssetImage('assets/images/professor.png'),
             ),
             decoration: const BoxDecoration(color: Color(0xFF0145B5)),
             accountName: Text(
@@ -48,6 +64,47 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
               _user.email ?? '',
               style: TextStylesOcupacao.cargostyle,
               overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          DrawerHeader(
+            decoration: BoxDecoration(color: PrimaryColor.color),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: AssetImage(
+                      'assets/images/coordenador.png',
+                    ),
+                  ),
+
+                  SizedBox(height: 20),
+
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: 173,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.user.uid,
+                            style: TextStylesPerfil.perfilstyle,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            'Administrador',
+                            style: TextStylesOcupacao.cargostyle,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           ListTile(
@@ -71,7 +128,7 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
           ),
           ListTile(
             onTap: () async {
-              final resultado = await AuthService().logoutUser();
+              final resultado = await Authentication().deslogar();
               if (resultado == null) {
                 if (!mounted) return;
                 Navigator.of(context).pushReplacementNamed('/login');
