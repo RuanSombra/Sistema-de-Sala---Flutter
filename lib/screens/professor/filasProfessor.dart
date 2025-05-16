@@ -18,6 +18,7 @@ class _FilasprofessorState extends State<Filasprofessor> {
     return Scaffold(
       backgroundColor: branco,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: branco),
         backgroundColor: azulEscuro,
         title: Text(
           "Fila de espera",

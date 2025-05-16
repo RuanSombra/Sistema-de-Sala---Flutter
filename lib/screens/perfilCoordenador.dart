@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/drawer/drawer_coodenador.dart';
+import 'package:flutter_application_1/style/colors.dart';
 
 class PerfilCoordenador extends StatefulWidget {
   const PerfilCoordenador({super.key});
@@ -16,7 +17,7 @@ class _PerfilCoordenadorState extends State<PerfilCoordenador> {
       appBar: AppBar(
         title: Image.asset('assets/images/senai.png', height: 25),
         centerTitle: true,
-        backgroundColor: PrimaryColor.color,
+        backgroundColor: azulEscuro,
         iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
       drawer: DrawerCoodenador(),
