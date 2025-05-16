@@ -5,11 +5,11 @@ class TextStyleUsuario {
   static TextStyle usuario = TextStyle(
     fontFamily: 'Inter',
     fontWeight: FontWeight.bold,
-    fontSize: 13,
+    fontSize: 14,
     color: branco,
   );
 }
 
 class TextStyleCargo {
-  static TextStyle cargo = TextStyle(fontSize: 10, color: branco);
+  static TextStyle cargo = TextStyle(fontSize: 11, color: Colors.white70);
 }

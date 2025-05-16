@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/login.dart';
-
+import 'package:flutter_application_1/style/images.dart';
+import '../../screens/configuracoes/configuracoes.dart';
+import '../../screens/configuracoes/meuPerfil.dart';
+import '../../screens/professor/filasProfessor.dart';
+import '../../screens/professor/minhasReservas.dart';
+import '../../style/colors.dart';
+import '../../style/drawerTexts.dart';
+import '../navegacao.dart';
 
 class DrawerCoodenador extends StatefulWidget {
   const DrawerCoodenador({super.key});
@@ -13,143 +20,96 @@ class _DrawerCoodenadorState extends State<DrawerCoodenador> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      shape: Border.all(color: Colors.black),
+      backgroundColor: branco,
+      width: 250,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: ListView(
-        padding: EdgeInsets.all(0.8),
+        padding: EdgeInsets.all(0),
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: PrimaryColor.color),
+            decoration: BoxDecoration(
+              color: azulEscuro,
+              border: Border.all(width: 0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundImage: AssetImage(
-                      'assets/images/coordenador.png',
+              width: 240,
+              child: GestureDetector(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage(Perfil),
                     ),
-                  ),
-
-                  SizedBox(height: 20),
-
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SizedBox(
-                      width: 173,
+                    SizedBox(width: 8),
+                    SizedBox(
+                      width: 150,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Felipe Guerrero',
-                            style: TextStylesPerfil.perfilstyle,
+                            'Lorem Ipsum',
+                            style: TextStyleUsuario.usuario,
                             overflow: TextOverflow.ellipsis,
-                          ),
+                          ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
                           Text(
                             'Coordenador',
-                            style: TextStylesOcupacao.cargostyle,
+                            style: TextStyleCargo.cargo,
                             overflow: TextOverflow.ellipsis,
-                          ),
+                          ), //FEITO PELO SISTEMA DO SENAI - NÃO SUJEITO A ALTERAÇÕES
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Meuperfil()),
+                  );
+                },
               ),
             ),
           ),
-
-          ListTile(
-            onTap: () {},
-            leading: Icon(
-              Icons.checklist,
-              size: 25,
-              color: Colors.black,
-              semanticLabel: 'Reservas',
-            ),
-            title: Text('Reservas', style: TextStylesListTile.listtile),
+          Navegacao(
+            Icon(Icons.checklist_outlined, size: 25),
+            "Reservas",
+            context,
+            Minhasreservas(),
           ),
-
-          ListTile(
-            onTap: () {},
-            leading: Icon(
-              Icons.format_line_spacing_outlined,
-              size: 25,
-              color: Colors.black,
-              semanticLabel: 'Fila de Espera',
-            ),
-            title: Text('Fila de Espera', style: TextStylesListTile.listtile),
+          Navegacao(
+            Icon(Icons.person_add_alt_1_sharp, size: 25),
+            "Filas de espera",
+            context,
+            Filasprofessor(),
           ),
-
-          ListTile(
-            onTap: () {},
-            leading: Icon(
-              Icons.notification_add,
-              size: 25,
-              color: Colors.black,
-              semanticLabel: 'Notificações',
-            ),
-            title: Text('Notificações', style: TextStylesListTile.listtile),
+          Navegacao(
+            Icon(Icons.notification_add_sharp, size: 25),
+            "Notificações",
+            context,
+            Filasprofessor(),
           ),
-
-          ListTile(
-            onTap: () {},
-            leading: Icon(
-              Icons.settings,
-              size: 25,
-              color: Colors.black,
-              semanticLabel: 'Configurações',
-            ),
-            title: Text('Configurações', style: TextStylesListTile.listtile),
+          Navegacao(
+            Icon(Icons.settings, size: 25),
+            "Configurações",
+            context,
+            Configuracoes(),
           ),
-
-          ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TelaLogin()),
-              );
-            },
-            leading: Icon(
-              Icons.logout,
-              size: 25,
-              color: Colors.black,
-              semanticLabel: 'Sair',
-            ),
-            title: Text('Sair', style: TextStylesListTile.listtile),
+          Navegacao(
+            Icon(Icons.exit_to_app_sharp, size: 25),
+            "Sair",
+            context,
+            TelaLogin(),
           ),
         ],
       ),
     );
   }
-}
-
-class TextStylesListTile {
-  static const TextStyle listtile = TextStyle(
-    fontSize: 16,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.bold,
-  );
-}
-
-class TextStylesPerfil {
-  static const TextStyle perfilstyle = TextStyle(
-    fontSize: 18,
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Poppins',
-  );
-}
-
-class TextStylesOcupacao {
-  static const TextStyle cargostyle = TextStyle(
-    fontSize: 12,
-    color: Colors.white70,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Poppins',
-  );
-}
-
-class PrimaryColor {
-  static const Color color = Color(0xFF0145B5);
 }

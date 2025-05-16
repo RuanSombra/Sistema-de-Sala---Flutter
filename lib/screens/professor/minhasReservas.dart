@@ -13,6 +13,7 @@ class Minhasreservas extends StatelessWidget {
     return Scaffold(
       backgroundColor: branco,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: branco),
         backgroundColor: azulEscuro,
         title: Text(
           "Minhas reservas",
