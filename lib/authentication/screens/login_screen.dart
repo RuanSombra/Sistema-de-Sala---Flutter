@@ -4,7 +4,6 @@ import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/style/images.dart';
-
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,34 +15,39 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
+  final Authentication _authService = Authentication();
 
-  final Authentication authService = Authentication();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _senhaController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Para identificar o tamanho da tela do dispositivo
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: branco,
       body: SingleChildScrollView(
-        // Adicionei todos os elementos no sizedbox para ficar responsivo
         child: SizedBox(
           width: width,
           height: height,
           child: Padding(
-            padding: EdgeInsets.all(36),
+            padding: const EdgeInsets.all(36),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(LogoSenaiPreto),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: 300,
                   child: Text(
@@ -56,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Faça seu login para reservar salas.',
                   style: TextStyle(
@@ -67,262 +71,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-
+                const SizedBox(height: 30),
                 SizedBox(
-                  width: 270,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                      SizedBox(
-                        width: 303,
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Email: ',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  TextFormField(
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Por favor, insira um email';
-                                      }
-                                      if (!value.endsWith('.senai.br')) {
-                                        return 'Por favor, insira um email válido do Senai';
-                                      }
-                                      if (!value.contains('@')) {
-                                        return 'O email não é válido';
-                                      }
-                                      return null;
-                                    },
-                                    controller: emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: formDecoracao(
-                                      "Insira seu email senai.",
-                                      IconButton(
-                                        icon: Icon(Icons.person_2),
-                                        onPressed: () {},
-                                      ),
-                                      null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Senha: ',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  TextFormField(
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Por favor, digite uma senha!!';
-                                      }
-                                      return null;
-                                    },
-                                    obscureText: _obscureText,
-                                    controller: senhaController,
-                                    decoration: formDecoracao(
-                                      "Insira sua senha.",
-
-                                      // Ocultar ou mostrar senha
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _obscureText = !_obscureText;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          _obscureText
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                        ),
-                                      ),
-                                      null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(303, 59),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13),
-                                  ),
-                                  backgroundColor: azulEscuro,
-                                ),
-                                child: Text(
-                                  'Entrar na conta',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    letterSpacing: 0.8,
-                                    fontWeight: FontWeight.w500,
-                                    color: branco,
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  String email = emailController.text.trim();
-                                  String senha = senhaController.text.trim();
-
-                                  if (_formKey.currentState!.validate()) {
-                                    try {
-                                      // Faz login
-                                      final user = await authService.loginUser(
-                                        email: email,
-                                        senha: senha,
-                                      );
-
-                                      if (user != null) {
-                                        // Busca tipo no Firestore
-                                        String? tipo = await authService
-                                            .buscarTipoUsuario(user.uid);
-
-                                        if (tipo == null) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Tipo de usuário não encontrado.',
-                                              ),
-                                            ),
-                                          );
-                                          return;
-                                        }
-
-                                        // Redireciona com base no tipo
-
-                                        // Widget nextPage;
-
-                                        // if (tipo == "Coordenador") {
-                                        //   nextPage = PerfilCoordenador();
-                                        // } else if (tipo == "Professor(a)") {
-                                        //   nextPage = PerfilProfessor();
-                                        // } else if (tipo == "Admin") {
-                                        //   nextPage = PerfilAdmin();
-                                        // } else {
-                                        //   ScaffoldMessenger.of(
-                                        //     context,
-                                        //   ).showSnackBar(
-                                        //     SnackBar(
-                                        //       content: Text(
-                                        //         'Tipo de usuário inválido.',
-                                        //       ),
-                                        //     ),
-                                        //   );
-                                        //   return;
-                                        // }
-
-                                        // Navega
-                                        // Navigator.pushReplacement(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder:
-                                        //         (context) =>
-                                        //             HomeScreen(user: user),
-                                        //   ),
-                                        // );
-
-                                        if (mounted) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Login realizado com sucesso!',
-                                              ),
-                                            ),
-                                          );
-
-                                          Future.delayed(
-                                            Duration(seconds: 1),
-                                            () {
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (context) => HomeScreen(
-                                                        user: user,
-                                                      ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        }
-                                      }
-                                    } catch (e) {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Erro de login: $e'),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
-                              ),
-                              SizedBox(height: 5),
-                              Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      esqueciSenha();
-                                    },
-                                    child: Text(
-                                      "Esqueceu sua senha?",
-                                      style: TextStyle(
-                                        color: azulEscuro,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: azulEscuro,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (context) => RegisterScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      "Não tem uma conta? Cadastre-se",
-                                      style: TextStyle(
-                                        color: azulEscuro,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: azulEscuro,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  width: 303,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        _buildEmailField(),
+                        const SizedBox(height: 15),
+                        _buildPasswordField(),
+                        const SizedBox(height: 25),
+                        _buildLoginButton(),
+                        const SizedBox(height: 10),
+                        _buildForgotPasswordButton(),
+                        _buildRegisterButton(),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -333,33 +98,353 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void esqueciSenha() {
-    String email = emailController.text;
+  Widget _buildEmailField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Email:',
+          style: TextStyle(
+            fontSize: 15,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 5),
+        TextFormField(
+          controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
+          enabled: !_isLoading,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return 'Por favor, insira um email';
+            }
+
+            String email = value.trim();
+
+            if (!email.isValidEmail) {
+              return 'O email não é válido';
+            }
+
+            if (!email.endsWith('.senai.br')) {
+              return 'Por favor, insira um email válido do Senai';
+            }
+
+            return null;
+          },
+          decoration: formDecoracao(
+            "Insira seu email senai.",
+            IconButton(onPressed: () {}, icon: Icon(Icons.person_2)),
+            null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Senha:',
+          style: TextStyle(
+            fontSize: 15,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 5),
+        TextFormField(
+          controller: _senhaController,
+          obscureText: _obscureText,
+          enabled: !_isLoading,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Por favor, digite uma senha!';
+            }
+            if (value.length < 6) {
+              return 'A senha deve ter pelo menos 6 caracteres';
+            }
+            return null;
+          },
+          decoration: formDecoracao(
+            "Insira sua senha.",
+            IconButton(
+              onPressed:
+                  _isLoading
+                      ? null
+                      : () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+              icon: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
+            ),
+            null,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return SizedBox(
+      width: 303,
+      height: 59,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(13),
+          ),
+          backgroundColor: azulEscuro,
+          disabledBackgroundColor: azulEscuro.withOpacity(0.6),
+        ),
+        onPressed: _isLoading ? null : _handleLogin,
+        child:
+            _isLoading
+                ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+                : const Text(
+                  'Entrar na conta',
+                  style: TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 0.8,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+      ),
+    );
+  }
+
+  Widget _buildForgotPasswordButton() {
+    return TextButton(
+      onPressed: _isLoading ? null : _showForgotPasswordDialog,
+      child: Text(
+        "Esqueceu sua senha?",
+        style: TextStyle(
+          color: _isLoading ? azulEscuro.withOpacity(0.5) : azulEscuro,
+          decoration: TextDecoration.underline,
+          decorationColor:
+              _isLoading ? azulEscuro.withOpacity(0.5) : azulEscuro,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegisterButton() {
+    return TextButton(
+      onPressed:
+          _isLoading
+              ? null
+              : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterScreen(),
+                  ),
+                );
+              },
+      child: Text(
+        "Não tem uma conta? Cadastre-se",
+        style: TextStyle(
+          color: _isLoading ? azulEscuro.withOpacity(0.5) : azulEscuro,
+          decoration: TextDecoration.underline,
+          decorationColor:
+              _isLoading ? azulEscuro.withOpacity(0.5) : azulEscuro,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      String email = _emailController.text.trim();
+      String senha = _senhaController.text.trim();
+
+      // Usa o novo método loginUser que retorna UserLoginResult
+      UserLoginResult result = await _authService.loginUser(
+        email: email,
+        senha: senha,
+      );
+
+      if (!mounted) return;
+
+      if (result.isSuccess) {
+        _showSuccessMessage('Login realizado com sucesso!');
+
+        // Aguarda um pouco antes de navegar
+        await Future.delayed(const Duration(seconds: 1));
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(user: result.user!),
+            ),
+          );
+        }
+      } else {
+        _showErrorMessage(result.error ?? 'Erro desconhecido no login');
+      }
+    } catch (e) {
+      if (mounted) {
+        _showErrorMessage('Erro inesperado: $e');
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  void _showForgotPasswordDialog() {
+    final TextEditingController emailResetController = TextEditingController();
+
+    // Pre-preenche com o email já digitado
+    if (_emailController.text.isNotEmpty) {
+      emailResetController.text = _emailController.text;
+    }
 
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController redefinirSenhaController =
-            TextEditingController();
-
         return AlertDialog(
-          title: Text('Você realmente deseja redefinir sua senha?'),
-          content: TextFormField(
-            controller: redefinirSenhaController,
-            decoration: InputDecoration(label: Text('Digite o e-mail')),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Text(
+            'Redefinir Senha',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Digite seu email para receber o link de redefinição de senha:',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 15),
+              TextFormField(
+                controller: emailResetController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'E-mail',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+              ),
+            ],
           ),
           actions: [
-            TextButton(onPressed: () {}, child: Text('Redefinir Senha')),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String email = emailResetController.text.trim();
+
+                if (email.isEmpty) {
+                  _showErrorMessage('Por favor, digite um email');
+                  return;
+                }
+
+                if (!email.isValidEmail) {
+                  _showErrorMessage('Email inválido');
+                  return;
+                }
+
+                Navigator.of(context).pop(); // Fecha o dialog
+
+                // Mostra loading
+                _showLoadingDialog();
+
+                try {
+                  String? erro = await _authService.redefinirSenha(
+                    email: email,
+                  );
+
+                  Navigator.of(context).pop(); // Fecha o loading
+
+                  if (erro == null) {
+                    _showSuccessMessage(
+                      'Email de redefinição enviado! Verifique sua caixa de entrada.',
+                    );
+                  } else {
+                    _showErrorMessage(erro);
+                  }
+                } catch (e) {
+                  Navigator.of(context).pop(); // Fecha o loading
+                  _showErrorMessage('Erro ao enviar email: $e');
+                }
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: azulEscuro),
+              child: const Text(
+                'Enviar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
+        );
+      },
+    );
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return const AlertDialog(
+          content: Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 20),
+              Text('Enviando email...'),
+            ],
           ),
         );
       },
     );
+  }
 
-    authService.redefinirSenha(email: email).then((String? erro) {
-      if (erro == null) {}
-    });
+  void _showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 }

@@ -166,6 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         cargo: cargoController.text.trim(),
                         email: emailController.text.trim(),
                         tipo: _tipoSelecionado!,
+                        senha: '',
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -187,6 +188,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  _criarUsuario({
+    required String email,
+    required String senha,
+    required String nome,
+  }) {
+    _authService.cadastrarUsuarioNoFirestore(
+      uid: '',
+      nome: nome,
+      senha: senha,
+      cargo: cargoController.text,
+      email: email,
+      tipo: _tipoSelecionado!,
     );
   }
 }

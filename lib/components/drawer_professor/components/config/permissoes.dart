@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Reservaocupada extends StatelessWidget {
-  const Reservaocupada({super.key});
+class Permissoes extends StatelessWidget {
+  const Permissoes({super.key});
 
   @override
   Widget build(BuildContext context) {

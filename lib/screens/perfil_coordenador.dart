@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/drawers/drawer_coodenador.dart';
+
+import '../components/drawer_coordenador/drawer_coodenador.dart';
 
 class PerfilCoordenador extends StatefulWidget {
   final User user;
