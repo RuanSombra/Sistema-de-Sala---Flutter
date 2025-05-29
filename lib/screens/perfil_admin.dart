@@ -287,7 +287,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          "Especialização: ${sala.especializacao}\nCapacidade: ${sala.capacidade} - Status: ${sala.status}",
+          "Capacidade: ${sala.capacidade} - Status: ${sala.status}",
           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
         ),
         isThreeLine: true, // Para acomodar mais informações no subtitle
@@ -624,6 +624,7 @@ class _PerfilAdminState extends State<PerfilAdmin> {
       Blocos blocoParaSalvar = Blocos(
         id: idBloco,
         nome: nomeBloco.trim(),
+        especializacao: nomeBloco.trim(),
         // criadoEm e atualizadoEm são gerenciados pelo serviço
       );
 
@@ -667,19 +668,10 @@ class _PerfilAdminState extends State<PerfilAdmin> {
     TextEditingController nomeSalaController = TextEditingController(
       text: sala?.nome ?? '',
     );
-    TextEditingController especializacaoController = TextEditingController(
-      text: sala?.especializacao ?? '',
-    );
     TextEditingController capacidadeController = TextEditingController(
       text: sala?.capacidade.toString() ?? '',
     );
-    List<String> tempRecursos = List<String>.from(
-      sala?.recursos ?? [],
-    ); // Cria uma cópia editável
     String tempStatus = sala?.status ?? 'disponivel';
-    TextEditingController observacoesController = TextEditingController(
-      text: sala?.observacoes ?? '',
-    );
 
     final GlobalKey<FormState> formKeySala = GlobalKey<FormState>();
 
@@ -744,20 +736,6 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
-                        controller: especializacaoController,
-                        decoration: const InputDecoration(
-                          labelText: "Especialização/Tipo",
-                          prefixIcon: Icon(Icons.category_outlined),
-                        ),
-                        validator:
-                            (v) =>
-                                (v == null || v.trim().isEmpty)
-                                    ? "Especialização obrigatória"
-                                    : null,
-                        textCapitalization: TextCapitalization.words,
-                      ),
-                      const SizedBox(height: 12),
-                      TextFormField(
                         controller: capacidadeController,
                         decoration: const InputDecoration(
                           labelText: "Capacidade",
@@ -771,38 +749,6 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                             return "Valor inválido";
                           return null;
                         },
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        "Recursos:",
-                        style: Theme.of(ctxModal).textTheme.titleSmall,
-                      ),
-                      Wrap(
-                        spacing: 8.0,
-                        children:
-                            <String>[
-                              'Projetor',
-                              'Quadro Branco',
-                              'Ar Condicionado',
-                              'Computadores',
-                              'Internet',
-                            ].map((recurso) {
-                              return FilterChip(
-                                label: Text(recurso),
-                                selected: tempRecursos.contains(recurso),
-                                onSelected: (selected) {
-                                  modalSetState(() {
-                                    if (selected) {
-                                      tempRecursos.add(recurso);
-                                    } else {
-                                      tempRecursos.remove(recurso);
-                                    }
-                                  });
-                                },
-                                selectedColor: azulEscuro.withOpacity(0.3),
-                                checkmarkColor: azulEscuro,
-                              );
-                            }).toList(),
                       ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
@@ -835,16 +781,6 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                                     ? "Status obrigatório"
                                     : null,
                       ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: observacoesController,
-                        decoration: const InputDecoration(
-                          labelText: "Observações (Opcional)",
-                          prefixIcon: Icon(Icons.notes_outlined),
-                        ),
-                        textCapitalization: TextCapitalization.sentences,
-                        maxLines: 2,
-                      ),
                       const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -862,13 +798,10 @@ class _PerfilAdminState extends State<PerfilAdmin> {
                                   nomeBloco: nomeBloco,
                                   salaExistente: sala,
                                   nome: nomeSalaController.text,
-                                  especializacao: especializacaoController.text,
                                   capacidade: int.parse(
                                     capacidadeController.text,
                                   ),
-                                  recursos: tempRecursos,
                                   status: tempStatus,
-                                  observacoes: observacoesController.text,
                                 );
                                 // Navigator.pop(ctxModal); // Fechar o modal é feito no handler
                               }
@@ -905,11 +838,8 @@ class _PerfilAdminState extends State<PerfilAdmin> {
     required String nomeBloco, // Para denormalização no objeto Sala
     Salas? salaExistente,
     required String nome,
-    required String especializacao,
     required int capacidade,
-    required List<String> recursos,
     required String status,
-    String? observacoes,
   }) async {
     Navigator.pop(context); // Fecha o Modal primeiro
     setState(() {
@@ -922,13 +852,10 @@ class _PerfilAdminState extends State<PerfilAdmin> {
       Salas salaParaSalvar = Salas(
         id: idSala,
         nome: nome.trim(),
-        especializacao: especializacao.trim(),
         blocoId: blocoId, // Importante para o modelo, mesmo sendo subcoleção
         nomeBloco: nomeBloco, // Denormalizado
         capacidade: capacidade,
-        recursos: recursos,
         status: status,
-        observacoes: observacoes?.trim(),
         // criadoEm e atualizadoEm são gerenciados pelo serviço
       );
 

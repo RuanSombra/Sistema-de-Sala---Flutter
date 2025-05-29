@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/reserva_screen.dart';
 // Remova TextFormField se não for usado diretamente para pesquisa complexa AGORA
 // import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/style/colors.dart';
@@ -87,15 +88,7 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
         _searchTerm.toLowerCase(),
       );
       final salasMatch = salasDoBloco.any(
-        (sala) =>
-            sala.nome.toLowerCase().contains(_searchTerm.toLowerCase()) ||
-            sala.especializacao.toLowerCase().contains(
-              _searchTerm.toLowerCase(),
-            ) ||
-            (sala.recursos).any(
-              (recurso) =>
-                  recurso.toLowerCase().contains(_searchTerm.toLowerCase()),
-            ),
+        (sala) => sala.nome.toLowerCase().contains(_searchTerm.toLowerCase()),
       );
       return blocoMatch || salasMatch;
     }).toList();
@@ -115,14 +108,6 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
                 (sala) =>
                     sala.nome.toLowerCase().contains(
                       _searchTerm.toLowerCase(),
-                    ) ||
-                    sala.especializacao.toLowerCase().contains(
-                      _searchTerm.toLowerCase(),
-                    ) ||
-                    (sala.recursos).any(
-                      (recurso) => recurso.toLowerCase().contains(
-                        _searchTerm.toLowerCase(),
-                      ),
                     ) ||
                     bloco.nome.toLowerCase().contains(
                       _searchTerm.toLowerCase(),
@@ -223,13 +208,8 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
                                   salasDoBloco.every(
                                     (s) =>
                                         !(s.nome.toLowerCase().contains(
-                                              _searchTerm.toLowerCase(),
-                                            ) ||
-                                            s.especializacao
-                                                .toLowerCase()
-                                                .contains(
-                                                  _searchTerm.toLowerCase(),
-                                                )),
+                                          _searchTerm.toLowerCase(),
+                                        )),
                                   )) {
                                 salasDoBloco = blocoSalasMap[bloco.id] ?? [];
                               }
@@ -312,10 +292,8 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
             Text(
               "Bloco: ${bloco.nome}",
             ), // Usa nomeBloco denormalizado da sala, ou nome do bloco
-            Text("Especialização: ${sala.especializacao}"),
             Text("Capacidade: ${sala.capacidade}"),
-            if (sala.recursos.isNotEmpty)
-              Text("Recursos: ${sala.recursos.join(', ')}"),
+
             Text(
               "Status: ${sala.status}",
               style: TextStyle(
@@ -332,26 +310,22 @@ class _PerfilProfessorState extends State<PerfilProfessor> {
           onPressed:
               sala.status == 'disponivel'
                   ? () {
-                    // TODO: Ação de reservar sala
-                    // Navegar para tela de reserva, passando 'sala' e 'bloco'
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Reservar sala: ${sala.nome} no Bloco ${bloco.nome}',
-                        ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                ReservaScreen(sala: sala, bloco: bloco),
                       ),
                     );
-                    // Exemplo: Navigator.push(context, MaterialPageRoute(builder: (_) => TelaDeReserva(sala: sala, bloco: bloco)));
                   }
-                  : null, // Desabilita o botão se não estiver disponível
+                  : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: azulEscuro,
             foregroundColor: branco,
           ),
           child: const Text('Reservar'),
         ),
-        isThreeLine:
-            sala.recursos.isNotEmpty, // Ajusta se tiver muitos detalhes
         contentPadding: const EdgeInsets.symmetric(
           vertical: 10,
           horizontal: 16,

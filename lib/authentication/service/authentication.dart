@@ -12,7 +12,6 @@ class Authentication {
     required String cargo,
     required String email,
     required String tipo,
-    required String uid,
   }) async {
     try {
       // 1. Criar usuário no Firebase Auth

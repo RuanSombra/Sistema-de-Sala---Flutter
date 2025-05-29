@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Blocos {
   String id;
   String nome;
+  String especializacao;
   Timestamp? criadoEm;
   Timestamp? atualizadoEm;
 
   Blocos({
     required this.id,
     required this.nome,
+    required this.especializacao,
     this.criadoEm,
     this.atualizadoEm,
   });
@@ -25,6 +27,8 @@ class Blocos {
     return Blocos(
       id: snapshot.id, // Pega o ID do documento
       nome: data['nome'] as String? ?? 'Nome não informado',
+      especializacao:
+          data['especializacao'] as String? ?? 'Especialização não informada',
       criadoEm: data['criadoEm'] as Timestamp?,
       atualizadoEm: data['atualizadoEm'] as Timestamp?,
     );
@@ -44,20 +48,10 @@ class Blocos {
   // para outras conversões ou lógica de UI, mas os acima são específicos para o Firestore.
   Blocos.fromMap(Map<String, dynamic> map)
     : id = map['id'] as String? ?? '', // Assume que o ID está no mapa
-      nome = map['nome'] as String? ?? '';
+      nome = map['nome'] as String? ?? '',
+      especializacao = map['especializacao'] as String? ?? '';
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'nome': nome,
-    };
+    return {'id': id, 'nome': nome, 'especializacao': especializacao};
   }
-
-  // Blocos.fromMap(Map<String?, dynamic> map)
-  //   : id = map['id'] as String? ?? '',
-  //     nome = map['nome'] as String? ?? '';
-
-  // Map<String, dynamic> toMap() {
-  //   return {'id': id, 'nome': nome};
-  // }
 }

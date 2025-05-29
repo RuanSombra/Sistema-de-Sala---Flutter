@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/authentication/service/authentication.dart'; // Atualize o caminho conforme seu projeto
+import 'package:flutter_application_1/authentication/service/authentication.dart'; 
 import 'package:flutter_application_1/style/colors.dart';
 import 'package:flutter_application_1/components/textformfield.dart';
 
@@ -152,34 +151,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    try {
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .createUserWithEmailAndPassword(
-                            email: emailController.text.trim(),
-                            password: senhaController.text.trim(),
-                          );
+                    final resultado = await _authService
+                        .cadastrarUsuarioNoFirestore(
+                          nome: nomeController.text.trim(),
+                          cargo: cargoController.text.trim(),
+                          email: emailController.text.trim(),
+                          tipo: _tipoSelecionado!,
+                          senha: senhaController.text.trim(),
+                        );
 
-                      await _authService.cadastrarUsuarioNoFirestore(
-                        uid: userCredential.user!.uid,
-                        nome: nomeController.text.trim(),
-                        cargo: cargoController.text.trim(),
-                        email: emailController.text.trim(),
-                        tipo: _tipoSelecionado!,
-                        senha: '',
-                      );
-
+                    if (resultado == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Usuário cadastrado com sucesso!'),
                         ),
                       );
-
-                      Navigator.pop(context); // Volta para tela de login
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Erro ao cadastrar: $e')),
-                      );
+                      Navigator.pop(context);
+                    } else {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(resultado)));
                     }
                   }
                 },
@@ -197,7 +188,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     required String nome,
   }) {
     _authService.cadastrarUsuarioNoFirestore(
-      uid: '',
       nome: nome,
       senha: senha,
       cargo: cargoController.text,
