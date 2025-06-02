@@ -1,16 +1,16 @@
-# flutter_application_1
+Reserva de Salas - SENAI MA
 
-A new Flutter project.
+Um aplicativo de reserva de salas desenvolvido em Flutter para a Unidade do Senai MA - Raimundo Texeira.
 
-## Getting Started
+Tecnólogias:
 
-This project is a starting point for a Flutter application.
+- Flutter;
+- Dart;
+- Firebase;
+- Authentication.
 
-A few resources to get you started if this is your first Flutter project:
+Objetivo:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Desenvolver um aplicativo para os professores e a coordenação ter um controle de todas as salas da unidade.
+- O professor pode reservar a sala escolhendo por bloco: dia/horaInicio/horaFim.
+- O coordenador pode aceitar ou recusar a solicitação de reserva (Avaliando o motivo da reserva).
