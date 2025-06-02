@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/reserva_screen.dart';
 // Remova TextFormField se não for usado diretamente para pesquisa complexa AGORA
 // import 'package:flutter_application_1/components/textformfield.dart';
 import 'package:flutter_application_1/style/colors.dart';
@@ -10,7 +9,8 @@ import '../models/salas.dart'; // Precisa importar o modelo Salas
 // Importe seus SERVIÇOS
 import '../service/blocos_service.dart';
 import '../service/salas_service.dart';
-import '../style/images.dart'; // Suas imagens
+import '../style/images.dart';
+import 'reserva_screen.dart'; // Suas imagens
 
 class PerfilProfessor extends StatefulWidget {
   final User user;

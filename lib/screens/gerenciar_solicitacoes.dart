@@ -7,18 +7,22 @@ import '../style/colors.dart'; // Suas cores
 
 class GerenciarReservasCoordenadorScreen extends StatefulWidget {
   final User user; // Coordenador logado
-  const GerenciarReservasCoordenadorScreen({Key? key, required this.user}) : super(key: key);
+  const GerenciarReservasCoordenadorScreen({Key? key, required this.user})
+    : super(key: key);
 
   @override
-  State<GerenciarReservasCoordenadorScreen> createState() => _GerenciarReservasCoordenadorScreenState();
+  State<GerenciarReservasCoordenadorScreen> createState() =>
+      _GerenciarReservasCoordenadorScreenState();
 }
 
-class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCoordenadorScreen> {
+class _GerenciarReservasCoordenadorScreenState
+    extends State<GerenciarReservasCoordenadorScreen> {
   final ReservaService _reservaService = ReservaService();
 
   void _showFeedbackDialog(Reserva reserva, bool aprovar) {
     final TextEditingController feedbackController = TextEditingController(
-        text: aprovar ? 'Reserva aprovada.' : ''); // Texto padrão para aprovação
+      text: aprovar ? 'Reserva aprovada.' : '',
+    ); // Texto padrão para aprovação
 
     showDialog(
       context: context,
@@ -29,12 +33,16 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                  'Reserva para ${reserva.nomeSala} por ${reserva.nomeProfessor} em ${reserva.dataInicio.toDate().toLocaleDateString()}'),
+                'Reserva para ${reserva.nomeSala} por ${reserva.nomeProfessor} em ${reserva.dataInicio.toDate().toLocaleDateString()}',
+              ),
               SizedBox(height: 10),
               TextFormField(
                 controller: feedbackController,
                 decoration: InputDecoration(
-                  labelText: aprovar ? 'Feedback (opcional)' : 'Motivo da Rejeição (obrigatório)',
+                  labelText:
+                      aprovar
+                          ? 'Feedback (opcional)'
+                          : 'Motivo da Rejeição (obrigatório)',
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -55,10 +63,13 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
             ElevatedButton(
               onPressed: () async {
                 if (!aprovar && (feedbackController.text.trim().isEmpty)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Motivo da rejeição é obrigatório.'), backgroundColor: Colors.red),
-                    );
-                    return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Motivo da rejeição é obrigatório.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
                 }
                 try {
                   if (aprovar) {
@@ -78,25 +89,33 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
                   }
                   Navigator.of(ctx).pop(); // Fecha o dialog
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Reserva ${aprovar ? "aprovada" : "rejeitada"}!'), backgroundColor: Colors.green),
+                    SnackBar(
+                      content: Text(
+                        'Reserva ${aprovar ? "aprovada" : "rejeitada"}!',
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
                   );
                 } catch (e) {
                   Navigator.of(ctx).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Erro: $e'), backgroundColor: Colors.red),
+                    SnackBar(
+                      content: Text('Erro: $e'),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
               },
               child: Text(aprovar ? 'Aprovar' : 'Rejeitar'),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: aprovar ? Colors.green : Colors.red),
+                backgroundColor: aprovar ? Colors.green : Colors.red,
+              ),
             ),
           ],
         );
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +151,9 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Data: ${reserva.dataInicio.toDate().toLocaleDateString()} ${reserva.dataInicio.toDate().toLocaleTimeString()} - ${reserva.dataFim.toDate().toLocaleTimeString()}'),
+                      Text(
+                        'Data: ${reserva.dataInicio.toDate().toLocaleDateString()} ${reserva.dataInicio.toDate().toLocaleTimeString()} - ${reserva.dataFim.toDate().toLocaleTimeString()}',
+                      ),
                       Text('Motivo: ${reserva.disciplinaMotivo}'),
                       Text('Status: ${reserva.statusReserva}'),
                     ],
@@ -141,13 +162,19 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.check_circle, color: Colors.green),
-                        onPressed: () => _showFeedbackDialog(reserva, true), // Aprovar
+                        icon: const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        ),
+                        onPressed:
+                            () => _showFeedbackDialog(reserva, true), // Aprovar
                         tooltip: 'Aprovar',
                       ),
                       IconButton(
                         icon: const Icon(Icons.cancel, color: Colors.red),
-                        onPressed: () => _showFeedbackDialog(reserva, false), // Rejeitar
+                        onPressed:
+                            () =>
+                                _showFeedbackDialog(reserva, false), // Rejeitar
                         tooltip: 'Rejeitar',
                       ),
                     ],
@@ -164,6 +191,8 @@ class _GerenciarReservasCoordenadorScreenState extends State<GerenciarReservasCo
 
 // Helper para formatar data, se precisar
 extension DateTimeExtension on DateTime {
-  String toLocaleDateString() => "${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year";
-  String toLocaleTimeString() => "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
+  String toLocaleDateString() =>
+      "${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year";
+  String toLocaleTimeString() =>
+      "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
 }

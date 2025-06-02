@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../style/colors.dart';
-import '../../reservas/reserva_ocupada.dart';
 
 class Minhasreservas extends StatelessWidget {
   const Minhasreservas({super.key});
@@ -52,7 +51,6 @@ class Minhasreservas extends StatelessWidget {
                     ),
                   ],
                 ),
-                Reservaocupada(),
               ],
             ),
           ),

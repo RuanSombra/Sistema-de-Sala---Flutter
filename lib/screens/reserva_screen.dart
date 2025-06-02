@@ -13,8 +13,13 @@ class ReservaScreen extends StatefulWidget {
   final Salas? salaSelecionada;
   final Blocos? blocoSelecionado;
 
-  const ReservaScreen({Key? key, this.salaSelecionada, this.blocoSelecionado, required Salas sala, required Blocos bloco})
-    : super(key: key);
+  const ReservaScreen({
+    Key? key,
+    this.salaSelecionada,
+    this.blocoSelecionado,
+    required Salas sala,
+    required Blocos bloco,
+  }) : super(key: key);
 
   @override
   State<ReservaScreen> createState() => _ReservaScreenState();

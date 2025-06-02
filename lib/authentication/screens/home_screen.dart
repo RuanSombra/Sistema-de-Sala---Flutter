@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/screens/perfil_admin.dart';
-import 'package:flutter_application_1/screens/perfil_coordenador.dart';
 import 'package:flutter_application_1/screens/perfil_professor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../screens/perfil_coordenador.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/authentication/service/authentication.dart';
 import 'package:flutter_application_1/components/drawer_professor/components/config/config.dart';
 import 'package:flutter_application_1/components/drawer_professor/components/minhas_reservas.dart';
+import 'package:flutter_application_1/components/reservas/minhas_reservas.dart';
 import 'package:flutter_application_1/style/colors.dart';
 // Removi a importação não utilizada de DrawerCoordenador
 // import 'package:flutter_application_1/components/drawers/drawer_coodenador.dart';
@@ -187,7 +188,11 @@ class _DrawerProfessorState extends State<DrawerProfessor> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Minhasreservas()),
+                MaterialPageRoute(
+                  builder:
+                      (context) =>
+                          MinhasReservasProfessorScreen(user: _userAuth),
+                ),
               );
               // TODO: Navegar para a tela de Minhas Reservas
               // Navigator.pushNamed(context, '/minhasReservas');
