@@ -2,7 +2,7 @@ Reserva de Salas - SENAI MA
 
 Um aplicativo de reserva de salas desenvolvido em Flutter para a Unidade do Senai MA - Raimundo Texeira.
 
-Tecnólogias:
+Tecnologías:
 
 - Flutter;
 - Dart;
